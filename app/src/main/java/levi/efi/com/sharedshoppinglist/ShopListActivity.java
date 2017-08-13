@@ -67,7 +67,7 @@ public class ShopListActivity extends BaseActivity implements View.OnClickListen
         adapter = new ShopListAdapter(lstItemsModel, getLayoutInflater(), ShopListActivity.this, ShopListActivity.this);
         lstItemsView.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        lstItemsView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        lstItemsView.setLayoutManager(linearLayoutManager);
 
         ItemTouchHelper.Callback callback =
                 new SimpleItemTouchHelperCallback(adapter);
