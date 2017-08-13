@@ -1,10 +1,5 @@
 package levi.efi.com.sharedshoppinglist;
-
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -13,14 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -32,17 +21,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import levi.efi.com.sharedshoppinglist.Utils.JsonConverter;
-
 public class ShopListActivity extends BaseActivity implements View.OnClickListener, RecyclerView.OnItemTouchListener, Saveable {
 
     private LinearLayoutManager linearLayoutManager;
     private TextView txtEmptyMessage;
-    private Button btnAddItem, btnRemoverItem;
+    private Button btnAddItem;
     private RecyclerView lstItemsView;
     private ArrayList<ShopItem> lstItemsModel;
     private ShopListAdapter adapter;
-    private ProgressBar pbProgress;
     private boolean isAddState = false;
 
     private String username;
@@ -60,7 +46,6 @@ public class ShopListActivity extends BaseActivity implements View.OnClickListen
         txtEmptyMessage = (TextView) findViewById(R.id.txtEmptyMessage);
         btnAddItem = (Button) findViewById(R.id.btnAddItem);
         lstItemsView = (RecyclerView) findViewById(R.id.itemList);
-        pbProgress = (ProgressBar) findViewById(R.id.shopListProgressBar);
 
         btnAddItem.setOnClickListener(this);
 
@@ -89,9 +74,10 @@ public class ShopListActivity extends BaseActivity implements View.OnClickListen
     private void populateListView() {
         if (!isIdentical(lstItemsModel, adapter.getData())) {
             adapter.setData(lstItemsModel);
-            showEmptyIfEmpty();
             adapter.notifyDataSetChanged();
         }
+
+        showEmptyIfEmpty();
     }
 
     private boolean isIdentical(ArrayList<ShopItem> providedData, ArrayList<ShopItem> currentData) {
@@ -143,7 +129,7 @@ public class ShopListActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                showEmptyIfEmpty();
             }
 
             @Override
